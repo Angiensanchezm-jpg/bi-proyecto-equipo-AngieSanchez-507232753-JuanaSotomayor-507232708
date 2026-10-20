@@ -1,0 +1,7 @@
+# No incluir fuentes originales de la empresa sin autorización
+datos/raw/*
+!datos/raw/.gitkeep
+
+# Archivos temporales de Excel
+~$*.xlsx
+~$*.xls
