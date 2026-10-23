@@ -1,7 +1,7 @@
 # Proyecto de Business Intelligence: BPO Alfa Colombia
 
 ## Caso
-En este proyecto vamos a analizar cómo se gestionan las liquidaciones y la devolución de activos de las personas que se retiran de BPO Alfa Colombia, nombre ficticio usado en este trabajo. Queremos revisar qué casos se cierran dentro de los diez días calendario y cuáles quedan pendientes, tienen descuentos o requieren reliquidación. Actualmente, cuatro personas hacen seguimiento a las recolecciones y consultan archivos de Excel, Cubic y mensajes de WhatsApp. Analizaremos los datos de 2025 y los disponibles hasta septiembre de 2026 para proponer indicadores y un tablero de seguimiento. Cada retiro se distinguirá por su ID de contrato; un código anonimizado permitirá reconocer si hubo una recontratación.
+En este proyecto vamos a analizar cómo se gestionan las liquidaciones y la devolución de activos de las personas que se retiran de BPO Alfa Colombia, nombre ficticio usado en este trabajo. Queremos revisar qué casos se cierran dentro de los diez días calendario y cuáles quedan pendientes, tienen descuentos o requieren reliquidación. Actualmente, cuatro personas hacen seguimiento a las recolecciones y consultan archivos de Excel, Cubic y mensajes de WhatsApp. Analizaremos los datos de 2025 y los disponibles hasta octubre de 2026 para proponer indicadores y un tablero de seguimiento. Cada retiro se distinguirá por su ID de contrato; un código anonimizado permitirá reconocer si hubo una recontratación.
 
 ## Equipo
 - Angie Natali Sánchez Muñoz — código 507232753
