@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36">
+  <diagram name="Página-1" id="4zJBa9wcVU8vDGK0RetT">
+    <mxGraphModel dx="1409" dy="606" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mFUmUprlf4JR4F44uGhR-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="105" width="1020" x="60" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-50" edge="1" parent="1" source="mFUmUprlf4JR4F44uGhR-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="mFUmUprlf4JR4F44uGhR-38" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="380" width="205" x="55" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-34" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;strong style=&quot;&quot;&gt;&amp;nbsp; 1. &lt;/strong&gt;&lt;strong style=&quot;&quot;&gt;&lt;font style=&quot;&quot;&gt;Fuentes&lt;/font&gt;&lt;/strong&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Paz y Salvos: retiros y fechas de liquidación&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Descuentos: activos y valores descontados&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Adobe: registros de documentos y código del activo&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Cubic: fechas de asignación y devolución&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;DIVIPOLA: municipios y departamentos&lt;/li&gt;&lt;/ul&gt;" vertex="1">
+          <mxGeometry height="320" width="200" x="57.5" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-51" edge="1" parent="1" source="mFUmUprlf4JR4F44uGhR-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="mFUmUprlf4JR4F44uGhR-40" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="380" width="215" x="330" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-38" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;strong style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&amp;nbsp; 2. Preparación e integración&lt;/font&gt;&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Excel: limpiar y estandarizar fechas y códigos&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Código anonimizado: relacionar los casos con descuentos&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;ID del activo: relacionar el activo entre fuentes&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;ID de contrato y fechas: distinguir recontrataciones&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="370" width="215" x="330" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-52" edge="1" parent="1" source="mFUmUprlf4JR4F44uGhR-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="mFUmUprlf4JR4F44uGhR-42" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="375" width="200" x="600" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-40" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;strong style=&quot;&quot;&gt;&amp;nbsp; 3. &lt;/strong&gt;&lt;strong style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent; text-align: center;&quot;&gt;Almacén / modelo analítico propuesto&lt;/strong&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-weight: 400; background-color: transparent; text-align: center;&quot;&gt;.&lt;/span&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-weight: 400; background-color: transparent; text-align: center;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;ul style=&quot;text-align: center;&quot;&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Base analítica anonimizada&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;text-align: center;&quot;&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Un registro por retiro/contrato&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;text-align: center;&quot;&gt;&lt;li style=&quot;text-align: left;&quot;&gt;Detalle de activos asociado al retiro&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="370" width="200" x="600" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="370" width="220" x="860" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-42" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;strong style=&quot;&quot;&gt;&amp;nbsp; 4. &lt;/strong&gt;&lt;strong style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;Usuario final: análisis y tablero&lt;/strong&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-weight: 400; background-color: transparent;&quot;&gt;.&lt;/span&gt;&lt;/font&gt;&lt;/h1&gt;&lt;div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;Días entre reporte y liquidación&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Días entre reporte y devolución&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Casos dentro o fuera de los diez días&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Activos pendientes, descuentos y reliquidaciones&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Looker Studio: tablero propuesto&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Cuatro personas que hacen seguimiento&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;Responsables consultan indicadores para priorizar el seguimiento&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="380" width="220" x="860" y="217.5" as="geometry" />
+        </mxCell>
+        <mxCell id="mFUmUprlf4JR4F44uGhR-54" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;blockquote style=&quot;margin: 0px 0px 0px 40px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; padding: 0px;&quot;&gt;&lt;h1 style=&quot;text-align: left; margin-top: 0px;&quot;&gt;&lt;b style=&quot;text-align: center;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;5. Capa transversal: gobierno, metadatos, monitoreo y seguridad&lt;/font&gt;&lt;/b&gt;&lt;/h1&gt;&lt;/blockquote&gt;&lt;p style=&quot;text-align: left;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span&gt;Anonimización y acceso limitado.&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span&gt;Diccionario y procedencia de las fuentes.&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot;text-align: left;&quot;&gt;&lt;span&gt;Controles de calidad y revisión de anomalías.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="95" width="905" x="77.5" y="645" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
