@@ -26,6 +26,6 @@
 
 ## DIVIPOLA
 - URL: https://www.datos.gov.co/Mapas-Nacionales/DIVIPOLA-C-digos-municipios/gdxc-w37w
-- Fecha de descarga: 29 de octubre 2026.
+- Fecha de descarga: 20 de octubre 2026.
 - Obtención: descarga del archivo CSV desde datos.gov.co.
 - Licencia: Datos abiertos de datos.gov.co; uso y reutilización según los términos del portal. Fuente: DANE. La ficha del conjunto no indica una licencia específica.
