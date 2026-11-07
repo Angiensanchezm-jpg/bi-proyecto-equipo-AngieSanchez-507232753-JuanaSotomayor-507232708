@@ -1,0 +1,2035 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>t_bitacora_calidad_descartes</name>
+    <description>Carga unificada de bitacora_calidad_descartes: 861 filas de F2 (#N/A en Codigo Unico) y 7 filas de F1 (1 Id nulo + 6 duplicados)</description>
+    <extended_description/>
+    <trans_version>2.0</trans_version>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>/</directory>
+    <parameters>
+      <parameter>
+        <name>DB_HOST</name>
+        <default_value>localhost</default_value>
+        <description>Host de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_NAME</name>
+        <default_value>bi_entrega2_test</default_value>
+        <description>Nombre de base de datos</description>
+      </parameter>
+      <parameter>
+        <name>DB_PASSWORD</name>
+        <default_value/>
+        <description>Contraseña de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_PORT</name>
+        <default_value>3306</default_value>
+        <description>Puerto de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_USER</name>
+        <default_value>bi_entrega2_user</default_value>
+        <description>Usuario de MySQL (seguridad del proyecto)</description>
+      </parameter>
+      <parameter>
+        <name>RUTA_DESCUENTOS</name>
+        <default_value>${Internal.Entry.Current.Directory}/../../datos/raw/Activos y Descuentos.xlsx</default_value>
+        <description>Ubicacion de Activos y Descuentos XLSX (F2)</description>
+      </parameter>
+      <parameter>
+        <name>RUTA_PAZ_Y_SALVOS</name>
+        <default_value>${Internal.Entry.Current.Directory}/../../datos/raw/Paz y Salvos.xlsx</default_value>
+        <description>Ubicacion de Paz y Salvos XLSX (F1)</description>
+      </parameter>
+    </parameters>
+    <log>
+      <trans-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <size_limit_lines/>
+        <interval/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STATUS</id>
+          <enabled>Y</enabled>
+          <name>STATUS</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+          <subject/>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>STARTDATE</id>
+          <enabled>Y</enabled>
+          <name>STARTDATE</name>
+        </field>
+        <field>
+          <id>ENDDATE</id>
+          <enabled>Y</enabled>
+          <name>ENDDATE</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>DEPDATE</id>
+          <enabled>Y</enabled>
+          <name>DEPDATE</name>
+        </field>
+        <field>
+          <id>REPLAYDATE</id>
+          <enabled>Y</enabled>
+          <name>REPLAYDATE</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>Y</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+        <field>
+          <id>EXECUTING_SERVER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_SERVER</name>
+        </field>
+        <field>
+          <id>EXECUTING_USER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_USER</name>
+        </field>
+        <field>
+          <id>CLIENT</id>
+          <enabled>N</enabled>
+          <name>CLIENT</name>
+        </field>
+      </trans-log-table>
+      <perf-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <interval/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>SEQ_NR</id>
+          <enabled>Y</enabled>
+          <name>SEQ_NR</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>INPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>INPUT_BUFFER_ROWS</name>
+        </field>
+        <field>
+          <id>OUTPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>OUTPUT_BUFFER_ROWS</name>
+        </field>
+      </perf-log-table>
+      <channel-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>LOGGING_OBJECT_TYPE</id>
+          <enabled>Y</enabled>
+          <name>LOGGING_OBJECT_TYPE</name>
+        </field>
+        <field>
+          <id>OBJECT_NAME</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_NAME</name>
+        </field>
+        <field>
+          <id>OBJECT_COPY</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_COPY</name>
+        </field>
+        <field>
+          <id>REPOSITORY_DIRECTORY</id>
+          <enabled>Y</enabled>
+          <name>REPOSITORY_DIRECTORY</name>
+        </field>
+        <field>
+          <id>FILENAME</id>
+          <enabled>Y</enabled>
+          <name>FILENAME</name>
+        </field>
+        <field>
+          <id>OBJECT_ID</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_ID</name>
+        </field>
+        <field>
+          <id>OBJECT_REVISION</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_REVISION</name>
+        </field>
+        <field>
+          <id>PARENT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>PARENT_CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>ROOT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>ROOT_CHANNEL_ID</name>
+        </field>
+      </channel-log-table>
+      <step-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>N</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+      </step-log-table>
+      <metrics-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_DATE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_CODE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_CODE</name>
+        </field>
+        <field>
+          <id>METRICS_DESCRIPTION</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DESCRIPTION</name>
+        </field>
+        <field>
+          <id>METRICS_SUBJECT</id>
+          <enabled>Y</enabled>
+          <name>METRICS_SUBJECT</name>
+        </field>
+        <field>
+          <id>METRICS_TYPE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_TYPE</name>
+        </field>
+        <field>
+          <id>METRICS_VALUE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_VALUE</name>
+        </field>
+      </metrics-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit/>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+    <created_user/>
+    <created_date>2026/11/06 18:56:16.379</created_date>
+    <modified_user/>
+    <modified_date>2026/11/06 18:56:16.379</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>MySQL_bi_entrega2_test</name>
+    <server>localhost</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>bi_entrega2_test</database>
+    <port>3306</port>
+    <username>bi_entrega2_user</username>
+    <password>Encrypted 2be98cda135eebcd1fb4efc238cc5fa89</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+        <attribute>500</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCursorFetch</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <order>
+    <!-- Flujo F2: descartes de Activos y Descuentos -->
+    <hop>
+      <from>Lee_Activos_Descuentos_F2</from>
+      <to>Renombra_Campos_F2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Renombra_Campos_F2</from>
+      <to>Filtra_Solo_Invalidos_NA</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_Solo_Invalidos_NA</from>
+      <to>Enriquece_Metadatos_Descarte_F2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Enriquece_Metadatos_Descarte_F2</from>
+      <to>Selecciona_8_Campos_F2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Selecciona_8_Campos_F2</from>
+      <to>Union_Descartes</to>
+      <enabled>Y</enabled>
+    </hop>
+
+    <!-- Flujo F1: descartes por Id nulo en Paz y Salvos -->
+    <hop>
+      <from>Lee_Paz_y_Salvos_F1</from>
+      <to>Filtra_F1_Nulo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_F1_Nulo</from>
+      <to>Enriquece_F1_Nulo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Enriquece_F1_Nulo</from>
+      <to>Selecciona_8_Campos_F1_Nulo</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Selecciona_8_Campos_F1_Nulo</from>
+      <to>Union_Descartes</to>
+      <enabled>Y</enabled>
+    </hop>
+
+    <!-- Flujo F1: descartes por Id duplicado en Paz y Salvos -->
+    <hop>
+      <from>Filtra_F1_Nulo</from>
+      <to>Ordena_F1_Validos_Por_Id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F1_Validos_Por_Id</from>
+      <to>Detecta_F1_Duplicados</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Detecta_F1_Duplicados</from>
+      <to>Filtra_Solo_Duplicados_F1</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_Solo_Duplicados_F1</from>
+      <to>Enriquece_F1_Duplicado</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Enriquece_F1_Duplicado</from>
+      <to>Selecciona_8_Campos_F1_Duplicado</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Selecciona_8_Campos_F1_Duplicado</from>
+      <to>Union_Descartes</to>
+      <enabled>Y</enabled>
+    </hop>
+
+    <!-- Carga final consolidada -->
+    <hop>
+      <from>Union_Descartes</from>
+      <to>Carga_bitacora_calidad_descartes</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <step>
+    <name>Selecciona_8_Campos_F2</name>
+    <type>SelectValues</type>
+    <description>Estandariza los 8 campos exactos para F2</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>FuenteOrigen</name>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+      </field>
+      <field>
+        <name>IdActivo</name>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+      </field>
+      <field>
+        <name>ValorMonetarioCOP</name>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>680</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Selecciona_8_Campos_F1_Nulo</name>
+    <type>SelectValues</type>
+    <description>Estandariza los 8 campos exactos para F1 Nulo</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>FuenteOrigen</name>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+      </field>
+      <field>
+        <name>IdActivo</name>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+      </field>
+      <field>
+        <name>ValorMonetarioCOP</name>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>340</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Selecciona_8_Campos_F1_Duplicado</name>
+    <type>SelectValues</type>
+    <description>Estandariza los 8 campos exactos para F1 Duplicado</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>FuenteOrigen</name>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+      </field>
+      <field>
+        <name>IdActivo</name>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+      </field>
+      <field>
+        <name>ValorMonetarioCOP</name>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>680</xloc>
+      <yloc>340</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Union_Descartes</name>
+    <type>Dummy</type>
+    <description>Consolida los tres flujos de descarte con metadatos homogeneos de 8 columnas</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>200</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Carga_bitacora_calidad_descartes</name>
+    <type>TableOutput</type>
+    <description>Insercion fisica en tabla de calidad de los 868 registros descartados (861 de F2 + 7 de F1)</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MySQL_bi_entrega2_test</connection>
+    <schema/>
+    <table>bitacora_calidad_descartes</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>N</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>N</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>FuenteOrigen</column_name>
+        <stream_name>FuenteOrigen</stream_name>
+      </field>
+      <field>
+        <column_name>CodigoColaboradorOrigen</column_name>
+        <stream_name>CodigoColaboradorOrigen</stream_name>
+      </field>
+      <field>
+        <column_name>IdActivo</column_name>
+        <stream_name>IdActivo</stream_name>
+      </field>
+      <field>
+        <column_name>NombreActivo</column_name>
+        <stream_name>NombreActivo</stream_name>
+      </field>
+      <field>
+        <column_name>ValorMonetarioCOP</column_name>
+        <stream_name>ValorMonetarioCOP</stream_name>
+      </field>
+      <field>
+        <column_name>ReglaCalidad</column_name>
+        <stream_name>ReglaCalidad</stream_name>
+      </field>
+      <field>
+        <column_name>DescripcionAnomalia</column_name>
+        <stream_name>DescripcionAnomalia</stream_name>
+      </field>
+      <field>
+        <column_name>AccionTomada</column_name>
+        <stream_name>AccionTomada</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>840</xloc>
+      <yloc>200</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Detecta_F1_Duplicados</name>
+    <type>ScriptValueMod</type>
+    <description>Marca duplicados comparando con el registro previo ordenado</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel/>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+function getVal(v) {
+    if (v == null) return "";
+    if (typeof v.isNull === 'function' &amp;&amp; v.isNull()) return "";
+    if (typeof v.getString === 'function') {
+        var s = v.getString();
+        return (s == null) ? "" : String(s).replace(/^\s+|\s+$/g, "");
+    }
+    return String(v).replace(/^\s+|\s+$/g, "");
+}
+
+function getFieldVal(fieldVar, fieldName, rowIdx) {
+    if (typeof fieldVar !== 'undefined' &amp;&amp; fieldVar != null) return getVal(fieldVar);
+    if (typeof this !== 'undefined' &amp;&amp; this != null &amp;&amp; typeof this[fieldName] !== 'undefined' &amp;&amp; this[fieldName] != null) return getVal(this[fieldName]);
+    if (typeof row !== 'undefined' &amp;&amp; row != null) {
+        if (typeof row.searchValueIndex === 'function') {
+            var idx = row.searchValueIndex(fieldName);
+            if (idx >= 0) {
+                var v = row.getValue(idx);
+                if (v != null) return getVal(v);
+            }
+        }
+        if (typeof rowIdx === 'number' &amp;&amp; row.length > rowIdx &amp;&amp; row[rowIdx] != null) {
+            return getVal(row[rowIdx]);
+        }
+    }
+    return "";
+}
+
+var cur_id = getFieldVal(typeof Id !== 'undefined' ? Id : null, "Id", 1);
+var es_duplicado = false;
+if (typeof prev_id_f1 !== 'undefined' &amp;&amp; cur_id != "" &amp;&amp; cur_id == prev_id_f1) {
+    es_duplicado = true;
+} else {
+    var prev_id_f1 = cur_id;
+    es_duplicado = false;
+}
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>es_duplicado</name>
+        <rename>es_duplicado</rename>
+        <type>Boolean</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>520</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Enriquece_F1_Duplicado</name>
+    <type>ScriptValueMod</type>
+    <description>Genera trazabilidad para los 6 duplicados de contrato en F1</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel/>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+function getVal(v) {
+    if (v == null) return "";
+    if (typeof v.isNull === 'function' &amp;&amp; v.isNull()) return "";
+    if (typeof v.getString === 'function') {
+        var s = v.getString();
+        return (s == null) ? "" : String(s).replace(/^\s+|\s+$/g, "");
+    }
+    return String(v).replace(/^\s+|\s+$/g, "");
+}
+
+function getFieldVal(fieldVar, fieldName, rowIdx) {
+    if (typeof fieldVar !== 'undefined' &amp;&amp; fieldVar != null) return getVal(fieldVar);
+    if (typeof this !== 'undefined' &amp;&amp; this != null &amp;&amp; typeof this[fieldName] !== 'undefined' &amp;&amp; this[fieldName] != null) return getVal(this[fieldName]);
+    if (typeof row !== 'undefined' &amp;&amp; row != null) {
+        if (typeof row.searchValueIndex === 'function') {
+            var idx = row.searchValueIndex(fieldName);
+            if (idx >= 0) {
+                var v = row.getValue(idx);
+                if (v != null) return getVal(v);
+            }
+        }
+        if (typeof rowIdx === 'number' &amp;&amp; row.length > rowIdx &amp;&amp; row[rowIdx] != null) {
+            return getVal(row[rowIdx]);
+        }
+    }
+    return "";
+}
+
+var cod_f1 = getFieldVal(typeof Codigo_unico !== 'undefined' ? Codigo_unico : null, "Codigo unico", 0);
+var id_f1  = getFieldVal(typeof Id !== 'undefined' ? Id : null, "Id", 1);
+
+var FuenteOrigen = "F1: Paz y Salvos";
+var CodigoColaboradorOrigen = cod_f1;
+var IdActivo = "";
+var NombreActivo = "";
+var ValorMonetarioCOP = 0.0;
+var ReglaCalidad = "F1.R2_ID_CONTRATO_DUPLICADO";
+var DescripcionAnomalia = "Registro en Paz y Salvos con Id de contrato duplicado (" + id_f1 + ")";
+var AccionTomada = "Descartada ocurrencia duplicada; conservado el primer registro";
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>FuenteOrigen</name>
+        <rename>FuenteOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+        <rename>CodigoColaboradorOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>IdActivo</name>
+        <rename>IdActivo</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+        <rename>NombreActivo</rename>
+        <type>String</type>
+        <length>200</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ValorMonetarioCOP</name>
+        <rename>ValorMonetarioCOP</rename>
+        <type>BigNumber</type>
+        <length>15</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+        <rename>ReglaCalidad</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+        <rename>DescripcionAnomalia</rename>
+        <type>String</type>
+        <length>255</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+        <rename>AccionTomada</rename>
+        <type>String</type>
+        <length>100</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>660</xloc>
+      <yloc>340</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Enriquece_F1_Nulo</name>
+    <type>ScriptValueMod</type>
+    <description>Registra la fila con ID nulo de F1 en la bitacora</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel/>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+function getVal(v) {
+    if (v == null) return "";
+    if (typeof v.isNull === 'function' &amp;&amp; v.isNull()) return "";
+    if (typeof v.getString === 'function') {
+        var s = v.getString();
+        return (s == null) ? "" : String(s).replace(/^\s+|\s+$/g, "");
+    }
+    return String(v).replace(/^\s+|\s+$/g, "");
+}
+
+function getFieldVal(fieldVar, fieldName, rowIdx) {
+    if (typeof fieldVar !== 'undefined' &amp;&amp; fieldVar != null) return getVal(fieldVar);
+    if (typeof this !== 'undefined' &amp;&amp; this != null &amp;&amp; typeof this[fieldName] !== 'undefined' &amp;&amp; this[fieldName] != null) return getVal(this[fieldName]);
+    if (typeof row !== 'undefined' &amp;&amp; row != null) {
+        if (typeof row.searchValueIndex === 'function') {
+            var idx = row.searchValueIndex(fieldName);
+            if (idx >= 0) {
+                var v = row.getValue(idx);
+                if (v != null) return getVal(v);
+            }
+        }
+        if (typeof rowIdx === 'number' &amp;&amp; row.length > rowIdx &amp;&amp; row[rowIdx] != null) {
+            return getVal(row[rowIdx]);
+        }
+    }
+    return "";
+}
+
+var cod_f1 = getFieldVal(typeof Codigo_unico !== 'undefined' ? Codigo_unico : null, "Codigo unico", 0);
+
+var FuenteOrigen = "F1: Paz y Salvos";
+var CodigoColaboradorOrigen = cod_f1;
+var IdActivo = "";
+var NombreActivo = "";
+var ValorMonetarioCOP = 0.0;
+var ReglaCalidad = "F1.R1_ID_CONTRATO_NULO";
+var DescripcionAnomalia = "Registro en Paz y Salvos con Id de contrato nulo o vacío";
+var AccionTomada = "Descartado de dim_contrato y fac_retiro";
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>FuenteOrigen</name>
+        <rename>FuenteOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+        <rename>CodigoColaboradorOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>IdActivo</name>
+        <rename>IdActivo</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+        <rename>NombreActivo</rename>
+        <type>String</type>
+        <length>200</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ValorMonetarioCOP</name>
+        <rename>ValorMonetarioCOP</rename>
+        <type>BigNumber</type>
+        <length>15</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+        <rename>ReglaCalidad</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+        <rename>DescripcionAnomalia</rename>
+        <type>String</type>
+        <length>255</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+        <rename>AccionTomada</rename>
+        <type>String</type>
+        <length>100</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>340</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Enriquece_Metadatos_Descarte_F2</name>
+    <type>ScriptValueMod</type>
+    <description>Genera trazabilidad de auditoria y limpia monto COP de F2</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>
+function getVal(v) {
+    if (v == null) return "";
+    if (typeof v.isNull === 'function' &amp;&amp; v.isNull()) return "";
+    if (typeof v.getString === 'function') {
+        var s = v.getString();
+        return (s == null) ? "" : String(s).replace(/^\s+|\s+$/g, "");
+    }
+    return String(v).replace(/^\s+|\s+$/g, "");
+}
+
+function getFieldVal(fieldVar, fieldName) {
+    if (typeof fieldVar !== 'undefined' &amp;&amp; fieldVar != null) {
+        return getVal(fieldVar);
+    }
+    if (typeof this !== 'undefined' &amp;&amp; this != null &amp;&amp; typeof this[fieldName] !== 'undefined' &amp;&amp; this[fieldName] != null) {
+        return getVal(this[fieldName]);
+    }
+    if (typeof row !== 'undefined' &amp;&amp; row != null &amp;&amp; typeof row.searchValueIndex === 'function') {
+        var idx = row.searchValueIndex(fieldName);
+        if (idx >= 0) {
+            var v = row.getValue(idx);
+            if (v != null) return getVal(v);
+        }
+    }
+    return "";
+}
+
+var raw_cod = getFieldVal(typeof Codigo_unico !== 'undefined' ? Codigo_unico : null, "Codigo_unico");
+var raw_id  = getFieldVal(typeof ID_ACTIVO !== 'undefined' ? ID_ACTIVO : null, "ID_ACTIVO");
+var raw_nom = getFieldVal(typeof NOMBRE_ACTIVO !== 'undefined' ? NOMBRE_ACTIVO : null, "NOMBRE_ACTIVO");
+var raw_val = getFieldVal(typeof VALOR_EN_PESOS !== 'undefined' ? VALOR_EN_PESOS : null, "VALOR_EN_PESOS");
+
+var FuenteOrigen = "F2: Activos y Descuentos";
+var CodigoColaboradorOrigen = (raw_cod == "" || raw_cod == "#N/A") ? "#N/A" : raw_cod;
+var IdActivo = raw_id;
+var NombreActivo = raw_nom;
+
+var ValorMonetarioCOP = 0.0;
+if (raw_val != "") {
+    var s = raw_val.replace(/\$/g, "").replace(/\./g, "").replace(/\s/g, "").replace(/,/g, ".");
+    var n = parseFloat(s);
+    if (!isNaN(n)) {
+        ValorMonetarioCOP = n;
+    }
+}
+
+var ReglaCalidad = "F2.R1_CODIGO_COLABORADOR_NA";
+var DescripcionAnomalia = "Registro en F2 con código único #N/A; imposible asociar a colaborador o contrato formal";
+var AccionTomada = "Aislado en bitacora_calidad_descartes sin alterar grano analítico";
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>ValorMonetarioCOP</name>
+        <rename>ValorMonetarioCOP</rename>
+        <type>BigNumber</type>
+        <length>15</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>ReglaCalidad</name>
+        <rename>ReglaCalidad</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>NombreActivo</name>
+        <rename>NombreActivo</rename>
+        <type>String</type>
+        <length>200</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>IdActivo</name>
+        <rename>IdActivo</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>FuenteOrigen</name>
+        <rename>FuenteOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>DescripcionAnomalia</name>
+        <rename>DescripcionAnomalia</rename>
+        <type>String</type>
+        <length>255</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CodigoColaboradorOrigen</name>
+        <rename>CodigoColaboradorOrigen</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>AccionTomada</name>
+        <rename>AccionTomada</rename>
+        <type>String</type>
+        <length>100</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_F1_Nulo</name>
+    <type>FilterRows</type>
+    <description>Separa fila con Id nulo o invalido de F1</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Enriquece_F1_Nulo</send_true_to>
+    <send_false_to>Ordena_F1_Validos_Por_Id</send_false_to>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>Id</leftvalue>
+            <function>IS NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <leftvalue>Id</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>#N/A</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <leftvalue>Id</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_Solo_Duplicados_F1</name>
+    <type>FilterRows</type>
+    <description>Conserva unicamente las 6 filas duplicadas rechazadas</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Enriquece_F1_Duplicado</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>es_duplicado</leftvalue>
+        <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>Boolean</type>
+          <text>Y</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>660</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Renombra_Campos_F2</name>
+    <type>SelectValues</type>
+    <description>Normaliza nombres de campos de F2 a identificadores validos para JavaScript</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <rename>Codigo_unico</rename>
+      </field>
+      <field>
+        <name>Fecha</name>
+        <rename>Fecha</rename>
+      </field>
+      <field>
+        <name>ID ACTIVO</name>
+        <rename>ID_ACTIVO</rename>
+      </field>
+      <field>
+        <name>NOMBRE ACTIVO</name>
+        <rename>NOMBRE_ACTIVO</rename>
+      </field>
+      <field>
+        <name>VALOR EN PESOS</name>
+        <rename>VALOR_EN_PESOS</rename>
+      </field>
+      <field>
+        <name>FECHA DE RELIQUIDACION</name>
+        <rename>FECHA_DE_RELIQUIDACION</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>210</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_Solo_Invalidos_NA</name>
+    <type>FilterRows</type>
+    <description>Filtra exactamente los 861 registros con #N/A o codigo nulo en F2</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Enriquece_Metadatos_Descarte_F2</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>Codigo_unico</leftvalue>
+            <function>IS NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <leftvalue>Codigo_unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>#N/A</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <leftvalue>Codigo_unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lee_Activos_Descuentos_F2</name>
+    <type>ExcelInput</type>
+    <description>Lectura de archivo original F2 Activos y Descuentos.xlsx</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${RUTA_DESCUENTOS}</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>ID ACTIVO</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>NOMBRE ACTIVO</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>VALOR EN DOLAR</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>VALOR EN PESOS</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>STATUS</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>OBSERVACIONES</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>FECHA DE RELIQUIDACION</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>OBSERVACIONES2</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>DESCONTADOS</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension/>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension/>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>100</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lee_Paz_y_Salvos_F1</name>
+    <type>ExcelInput</type>
+    <description>Lectura de F1 Paz y Salvos para auditar descartes</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${RUTA_PAZ_Y_SALVOS}</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required/>
+      <include_subfolders/>
+    </file>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Id</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha de baja</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Ultimo Dia Laboral</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha Reportado</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Motivo</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Cargo</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>P&amp;S</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension/>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension/>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>100</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F1_Validos_Por_Id</name>
+    <type>SortRows</type>
+    <description>Ordena por Id para detectar los 6 duplicados</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>380</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step_error_handling>
+  </step_error_handling>
+  <slave-step-copy-partition-distribution>
+  </slave-step-copy-partition-distribution>
+  <slave_transformation>N</slave_transformation>
+  <attributes/>
+</transformation>

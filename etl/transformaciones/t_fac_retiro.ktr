@@ -1,0 +1,3220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformation>
+  <info>
+    <name>t_fac_retiro</name>
+    <description>Carga de tabla de hechos fac_retiro integrando F1 (Paz y Salvos), F2 (Activos y Descuentos) y F4 (Historial Cubic), resolviendo llaves dimensionales y deduplicando pasivos monetarios multi-contrato sin inventar reglas arbitrarias de asignación.</description>
+    <extended_description/>
+    <trans_version>2.0</trans_version>
+    <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
+    <directory>/</directory>
+    <parameters>
+      <parameter>
+        <name>DB_HOST</name>
+        <default_value>localhost</default_value>
+        <description>Host de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_NAME</name>
+        <default_value>bi_entrega2</default_value>
+        <description>Nombre de la base de datos</description>
+      </parameter>
+      <parameter>
+        <name>DB_PASSWORD</name>
+        <default_value/>
+        <description>Contraseña de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_PORT</name>
+        <default_value>3306</default_value>
+        <description>Puerto de MySQL</description>
+      </parameter>
+      <parameter>
+        <name>DB_USER</name>
+        <default_value>bi_entrega2_user</default_value>
+        <description>Usuario de MySQL (seguridad del proyecto)</description>
+      </parameter>
+      <parameter>
+        <name>RUTA_CUBIC</name>
+        <default_value>${Internal.Entry.Current.Directory}/../../datos/raw/Historial Cubic.xlsx</default_value>
+        <description>Ubicación de Historial Cubic XLSX (F4)</description>
+      </parameter>
+      <parameter>
+        <name>RUTA_DESCUENTOS</name>
+        <default_value>${Internal.Entry.Current.Directory}/../../datos/raw/Activos y Descuentos.xlsx</default_value>
+        <description>Ubicación de Activos y Descuentos XLSX (F2)</description>
+      </parameter>
+      <parameter>
+        <name>RUTA_PAZ_Y_SALVOS</name>
+        <default_value>${Internal.Entry.Current.Directory}/../../datos/raw/Paz y Salvos.xlsx</default_value>
+        <description>Ubicación de Paz y Salvos XLSX (F1)</description>
+      </parameter>
+    </parameters>
+    <log>
+      <trans-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <size_limit_lines/>
+        <interval/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STATUS</id>
+          <enabled>Y</enabled>
+          <name>STATUS</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+          <subject/>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+          <subject/>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>STARTDATE</id>
+          <enabled>Y</enabled>
+          <name>STARTDATE</name>
+        </field>
+        <field>
+          <id>ENDDATE</id>
+          <enabled>Y</enabled>
+          <name>ENDDATE</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>DEPDATE</id>
+          <enabled>Y</enabled>
+          <name>DEPDATE</name>
+        </field>
+        <field>
+          <id>REPLAYDATE</id>
+          <enabled>Y</enabled>
+          <name>REPLAYDATE</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>Y</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+        <field>
+          <id>EXECUTING_SERVER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_SERVER</name>
+        </field>
+        <field>
+          <id>EXECUTING_USER</id>
+          <enabled>N</enabled>
+          <name>EXECUTING_USER</name>
+        </field>
+        <field>
+          <id>CLIENT</id>
+          <enabled>N</enabled>
+          <name>CLIENT</name>
+        </field>
+      </trans-log-table>
+      <perf-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <interval/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>SEQ_NR</id>
+          <enabled>Y</enabled>
+          <name>SEQ_NR</name>
+        </field>
+        <field>
+          <id>LOGDATE</id>
+          <enabled>Y</enabled>
+          <name>LOGDATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>INPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>INPUT_BUFFER_ROWS</name>
+        </field>
+        <field>
+          <id>OUTPUT_BUFFER_ROWS</id>
+          <enabled>Y</enabled>
+          <name>OUTPUT_BUFFER_ROWS</name>
+        </field>
+      </perf-log-table>
+      <channel-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>LOGGING_OBJECT_TYPE</id>
+          <enabled>Y</enabled>
+          <name>LOGGING_OBJECT_TYPE</name>
+        </field>
+        <field>
+          <id>OBJECT_NAME</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_NAME</name>
+        </field>
+        <field>
+          <id>OBJECT_COPY</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_COPY</name>
+        </field>
+        <field>
+          <id>REPOSITORY_DIRECTORY</id>
+          <enabled>Y</enabled>
+          <name>REPOSITORY_DIRECTORY</name>
+        </field>
+        <field>
+          <id>FILENAME</id>
+          <enabled>Y</enabled>
+          <name>FILENAME</name>
+        </field>
+        <field>
+          <id>OBJECT_ID</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_ID</name>
+        </field>
+        <field>
+          <id>OBJECT_REVISION</id>
+          <enabled>Y</enabled>
+          <name>OBJECT_REVISION</name>
+        </field>
+        <field>
+          <id>PARENT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>PARENT_CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>ROOT_CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>ROOT_CHANNEL_ID</name>
+        </field>
+      </channel-log-table>
+      <step-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>TRANSNAME</id>
+          <enabled>Y</enabled>
+          <name>TRANSNAME</name>
+        </field>
+        <field>
+          <id>STEPNAME</id>
+          <enabled>Y</enabled>
+          <name>STEPNAME</name>
+        </field>
+        <field>
+          <id>STEP_COPY</id>
+          <enabled>Y</enabled>
+          <name>STEP_COPY</name>
+        </field>
+        <field>
+          <id>LINES_READ</id>
+          <enabled>Y</enabled>
+          <name>LINES_READ</name>
+        </field>
+        <field>
+          <id>LINES_WRITTEN</id>
+          <enabled>Y</enabled>
+          <name>LINES_WRITTEN</name>
+        </field>
+        <field>
+          <id>LINES_UPDATED</id>
+          <enabled>Y</enabled>
+          <name>LINES_UPDATED</name>
+        </field>
+        <field>
+          <id>LINES_INPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_INPUT</name>
+        </field>
+        <field>
+          <id>LINES_OUTPUT</id>
+          <enabled>Y</enabled>
+          <name>LINES_OUTPUT</name>
+        </field>
+        <field>
+          <id>LINES_REJECTED</id>
+          <enabled>Y</enabled>
+          <name>LINES_REJECTED</name>
+        </field>
+        <field>
+          <id>ERRORS</id>
+          <enabled>Y</enabled>
+          <name>ERRORS</name>
+        </field>
+        <field>
+          <id>LOG_FIELD</id>
+          <enabled>N</enabled>
+          <name>LOG_FIELD</name>
+        </field>
+      </step-log-table>
+      <metrics-log-table>
+        <connection/>
+        <schema/>
+        <table/>
+        <timeout_days/>
+        <field>
+          <id>ID_BATCH</id>
+          <enabled>Y</enabled>
+          <name>ID_BATCH</name>
+        </field>
+        <field>
+          <id>CHANNEL_ID</id>
+          <enabled>Y</enabled>
+          <name>CHANNEL_ID</name>
+        </field>
+        <field>
+          <id>LOG_DATE</id>
+          <enabled>Y</enabled>
+          <name>LOG_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_DATE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DATE</name>
+        </field>
+        <field>
+          <id>METRICS_CODE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_CODE</name>
+        </field>
+        <field>
+          <id>METRICS_DESCRIPTION</id>
+          <enabled>Y</enabled>
+          <name>METRICS_DESCRIPTION</name>
+        </field>
+        <field>
+          <id>METRICS_SUBJECT</id>
+          <enabled>Y</enabled>
+          <name>METRICS_SUBJECT</name>
+        </field>
+        <field>
+          <id>METRICS_TYPE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_TYPE</name>
+        </field>
+        <field>
+          <id>METRICS_VALUE</id>
+          <enabled>Y</enabled>
+          <name>METRICS_VALUE</name>
+        </field>
+      </metrics-log-table>
+    </log>
+    <maxdate>
+      <connection/>
+      <table/>
+      <field/>
+      <offset>0.0</offset>
+      <maxdiff>0.0</maxdiff>
+    </maxdate>
+    <size_rowset>10000</size_rowset>
+    <sleep_time_empty>50</sleep_time_empty>
+    <sleep_time_full>50</sleep_time_full>
+    <unique_connections>N</unique_connections>
+    <feedback_shown>Y</feedback_shown>
+    <feedback_size>50000</feedback_size>
+    <using_thread_priorities>Y</using_thread_priorities>
+    <shared_objects_file/>
+    <capture_step_performance>N</capture_step_performance>
+    <step_performance_capturing_delay>1000</step_performance_capturing_delay>
+    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <dependencies>
+    </dependencies>
+    <partitionschemas>
+    </partitionschemas>
+    <slaveservers>
+    </slaveservers>
+    <clusterschemas>
+    </clusterschemas>
+    <created_user>-</created_user>
+    <created_date>2026/10/29 20:00:00.000</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2026/11/02 12:00:00.000</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
+    <is_key_private>N</is_key_private>
+  </info>
+  <notepads>
+  </notepads>
+  <connection>
+    <name>MySQL_bi_entrega2</name>
+    <server>${DB_HOST}</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>${DB_NAME}</database>
+    <port>${DB_PORT}</port>
+    <username>${DB_USER}</username>
+    <password>${DB_PASSWORD}</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.allowPublicKeyRetrieval</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.serverTimezone</code>
+        <attribute>America/Bogota</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useSSL</code>
+        <attribute>false</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>${DB_PORT}</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <connection>
+    <name>MySQL_bi_entrega2_test</name>
+    <server>localhost</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>bi_entrega2_test</database>
+    <port>3306</port>
+    <username>bi_entrega2_user</username>
+    <password>Encrypted 2be98cda135eebcd1fb4efc238cc5fa89</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+        <attribute>500</attribute>
+      </attribute>
+      <attribute>
+        <code>EXTRA_OPTION_MYSQL.useCursorFetch</code>
+        <attribute>true</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>3306</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>STREAM_RESULTS</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <order>
+    <hop>
+      <from>Lee_Paz_y_Salvos_F1</from>
+      <to>Filtra_Id_Valido</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_Id_Valido</from>
+      <to>Ordena_F1_Id</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F1_Id</from>
+      <to>Elimina_Duplicados_Contrato</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Elimina_Duplicados_Contrato</from>
+      <to>Ordena_F1_Persona</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F1_Persona</from>
+      <to>Calcula_Secuencia_Persona</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calcula_Secuencia_Persona</from>
+      <to>Ordena_F1_Id_Lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lee_Activos_Descuentos_F2</from>
+      <to>Filtra_F2_Valido</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_F2_Valido</from>
+      <to>Limpia_F2_ValorCOP</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Limpia_F2_ValorCOP</from>
+      <to>Ordena_F2_Persona</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F2_Persona</from>
+      <to>Agrupa_Descuentos_F2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Agrupa_Descuentos_F2</from>
+      <to>Ordena_F2_Id_Agrupado</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lee_Historial_Cubic_F4</from>
+      <to>Filtra_F4_Valido</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Filtra_F4_Valido</from>
+      <to>Ordena_F4_Persona</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F4_Persona</from>
+      <to>Agrupa_Cubic_F4</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Agrupa_Cubic_F4</from>
+      <to>Lookup_F4_Devolucion</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup_F2_Descuentos</from>
+      <to>Lookup_F4_Devolucion</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup_F4_Devolucion</from>
+      <to>Calcula_Vinculacion_y_Metricas</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calcula_Vinculacion_y_Metricas</from>
+      <to>Lookup_dim_contrato</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup_dim_contrato</from>
+      <to>Lookup_dim_ubicacion</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup_dim_ubicacion</from>
+      <to>Lookup_dim_estado</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Lookup_dim_estado</from>
+      <to>Carga_fac_retiro</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F1_Id_Lookup</from>
+      <to>Lookup_F2_Descuentos</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Ordena_F2_Id_Agrupado</from>
+      <to>Lookup_F2_Descuentos</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <step>
+    <name>Agrupa_Cubic_F4</name>
+    <type>MemoryGroupBy</type>
+    <description>Consolida eventos de devolucion en Cubic por persona para asociacion por intervalo</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>Codigo Unico</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>FechaDevolucionCubic_Min</aggregate>
+        <subject>Fecha Registro</subject>
+        <type>MIN</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>FechaDevolucionCubic_Max</aggregate>
+        <subject>Fecha Registro</subject>
+        <type>MAX</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>FechasDevolucionCubic_List</aggregate>
+        <subject>Fecha Registro</subject>
+        <type>CONCAT_COMMA</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>CantidadDevolucionesCubic</aggregate>
+        <subject>Fecha Registro</subject>
+        <type>COUNT_ALL</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Agrupa_Descuentos_F2</name>
+    <type>MemoryGroupBy</type>
+    <description>Consolida total de descuentos por persona para preservar cada peso una sola vez</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>IdContratoDestino</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>TotalDescuentoContratoCOP</aggregate>
+        <subject>ValorCOP_Num</subject>
+        <type>SUM</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>CantidadActivosDescontados</aggregate>
+        <subject>ValorCOP_Num</subject>
+        <type>COUNT_ALL</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>FechasDescuento_List</aggregate>
+        <subject>Fecha</subject>
+        <type>CONCAT_COMMA</type>
+        <valuefield/>
+      </field>
+      <field>
+        <aggregate>FechasReliq_List</aggregate>
+        <subject>FECHA DE RELIQUIDACION</subject>
+        <type>CONCAT_COMMA</type>
+        <valuefield/>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calcula_Secuencia_Persona</name>
+    <type>ScriptValueMod</type>
+    <description>Asigna secuencia por colaborador: 1 para el contrato base, >1 para contratos adicionales (recontratación)</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// Deteccion de casos multi-contrato en ordenamiento secuencial
+var prev_codigo;
+var seq_contrato;
+
+var cur_cod = "";
+if (typeof row !== 'undefined' &amp;&amp; row != null &amp;&amp; typeof row.searchValueIndex === 'function') {
+    var idx_cod = row.searchValueIndex("Codigo unico");
+    if (idx_cod >= 0) {
+        var v_cod = row.getValue(idx_cod);
+        if (v_cod != null &amp;&amp; !v_cod.isNull()) {
+            cur_cod = trim(v_cod.getString());
+        }
+    }
+} else if (typeof this["Codigo unico"] !== 'undefined' &amp;&amp; this["Codigo unico"] !== null) {
+    cur_cod = trim(this["Codigo unico"].toString());
+}
+
+if (prev_codigo == null || prev_codigo != cur_cod) {
+    seq_contrato = 1;
+    prev_codigo = cur_cod;
+} else {
+    seq_contrato = seq_contrato + 1;
+}
+
+var ContratoSecuencia = seq_contrato;
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>ContratoSecuencia</name>
+        <rename>ContratoSecuencia</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calcula_Vinculacion_y_Metricas</name>
+    <type>ScriptValueMod</type>
+    <description>Implementa el manejo estricto de deduplicación de descuentos y cálculo de llaves temporales y estados</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// =============================================================================
+// Calcula_Vinculacion_y_Metricas
+// Implementacion metodologica rigurosa de asociacion temporal de devoluciones Cubic (F4),
+// liquidaciones y jerarquia deterministica de descuentos F2 segun DDL (05_fac_retiro.sql).
+// Compatible con Rhino / ES5 (Pentaho PDI 9.4)
+// =============================================================================
+
+// Funciones auxiliares de compatibilidad y parsing robusto
+function cleanHeader(s) {
+    if (s == null) return "";
+    return String(s).toUpperCase().replace(/[^A-Z0-9]/g, "");
+}
+
+function safeTrim(val) {
+    if (val == null) return "";
+    var s = null;
+    if (typeof val.isNull === 'function' &amp;&amp; val.isNull()) return "";
+    if (typeof val.getString === 'function') {
+        s = val.getString();
+    } else {
+        s = String(val);
+    }
+    if (s == null) return "";
+    return String(s).replace(/^\s+|\s+$/g, "");
+}
+
+function safeTrimUpper(val) {
+    return safeTrim(val).toUpperCase();
+}
+
+function findRowValue(names, fallbackPrefix) {
+    if (typeof row !== 'undefined' &amp;&amp; row != null &amp;&amp; typeof row.searchValueIndex === 'function') {
+        for (var i = 0; i &lt; names.length; i++) {
+            var idx = row.searchValueIndex(names[i]);
+            if (idx >= 0) {
+                var v = row.getValue(idx);
+                if (v != null &amp;&amp; !v.isNull()) return v;
+            }
+        }
+        if (fallbackPrefix) {
+            var pref = cleanHeader(fallbackPrefix);
+            for (var j = 0; j &lt; row.size(); j++) {
+                var vCol = row.getValue(j);
+                if (vCol != null &amp;&amp; cleanHeader(vCol.getName()).indexOf(pref) >= 0) {
+                    if (!vCol.isNull()) return vCol;
+                }
+            }
+        }
+    }
+    for (var k = 0; k &lt; names.length; k++) {
+        if (typeof this[names[k]] !== 'undefined' &amp;&amp; this[names[k]] !== null) {
+            return this[names[k]];
+        }
+    }
+    return null;
+}
+
+function parseDateValue(val) {
+    if (val == null) return null;
+    if (typeof val.isNull === 'function' &amp;&amp; val.isNull()) return null;
+    if (typeof val.isDate === 'function' &amp;&amp; val.isDate()) {
+        var jd = val.getDate();
+        return jd != null ? new Date(jd.getTime()) : null;
+    }
+    var s = safeTrim(val);
+    if (s == "" || s == "-" || s == "0" || s.indexOf("#") >= 0 || s.toUpperCase() == "NULL" || s.toUpperCase() == "NONE") {
+        return null;
+    }
+    var num = Number(s);
+    if (!isNaN(num) &amp;&amp; num > 10000 &amp;&amp; num &lt; 100000) {
+        var utc_days = Math.floor(num - 25569);
+        var utc_value = utc_days * 86400;
+        var date_info = new Date(utc_value * 1000);
+        return new Date(date_info.getUTCFullYear(), date_info.getUTCMonth(), date_info.getUTCDate());
+    }
+    var parts = s.split(/[-/ :]/);
+    if (parts.length >= 3) {
+        var p0 = parseInt(parts[0], 10);
+        var p1 = parseInt(parts[1], 10);
+        var p2 = parseInt(parts[2], 10);
+        if (p0 > 1900) return new Date(p0, p1 - 1, p2);
+        if (p2 > 1900) return new Date(p2, p1 - 1, p0);
+    }
+    var d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+}
+
+function formatFechaKey(d) {
+    if (d == null) return -1;
+    var yr = d.getFullYear();
+    var mo = d.getMonth() + 1;
+    var dy = d.getDate();
+    return yr * 10000 + mo * 100 + dy;
+}
+
+function toMidnight(d) {
+    if (d == null) return null;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+}
+
+// Conteo sustentado de activos pendientes desde el texto de la fuente
+function parsePendingAssetsCount(val) {
+    if (val == null) return null;
+    var raw = safeTrimUpper(val);
+    if (raw == "" || raw == "NULL" || raw == "NONE") {
+        return null;
+    }
+    if (raw.indexOf("NO TIENE") >= 0 || raw.indexOf("SIN ACTIVOS") >= 0 || raw == "-" || raw == "0") {
+        return 0;
+    }
+    if (raw == "TIENE ACTIVOS") {
+        return null;
+    }
+    var regexAsset = /\b(\d{1,2})\s+(CPU|MONITOR|DIADEMA|TOKEN|YUBIKEY|PORTATIL|TABLET|CAMARA|CARGADOR|TECLADO|MOUSE)\b/g;
+    var matches = [];
+    var match;
+    while ((match = regexAsset.exec(raw)) !== null) {
+        matches.push(parseInt(match[1], 10));
+    }
+    if (matches.length == 0) return null;
+    var allNumbers = raw.match(/\b\d+\b/g);
+    if (allNumbers != null &amp;&amp; allNumbers.length != matches.length) return null;
+    var totalAssets = 0;
+    for (var k = 0; k &lt; matches.length; k++) {
+        totalAssets += matches[k];
+    }
+    return totalAssets;
+}
+
+// =============================================================================
+// SECCION 1: IDENTIFICACION DEL COLABORADOR Y REINICIO DE ESTADO
+// =============================================================================
+var v_cod_cur = findRowValue(["Codigo unico"], "CodigoUnico");
+var cur_colab_cod = safeTrim(v_cod_cur);
+
+if (prev_colab_codigo == null || prev_colab_codigo != cur_colab_cod) {
+    prev_colab_codigo = cur_colab_cod;
+    next_contract_start = null; // Primer contrato en orden cronologico inverso (mas reciente)
+    used_cubic_timestamps = {}; // Reiniciar registro de devoluciones consumidas
+    used_discount_assigned = false; // Garantiza asignacion univoca (cero duplicacion) de descuentos
+}
+
+var v_sec = findRowValue(["ContratoSecuencia"], "ContratoSecuencia");
+var sec = 1;
+if (v_sec != null &amp;&amp; (typeof v_sec.isNull !== 'function' || !v_sec.isNull())) {
+    if (typeof v_sec.getInteger === 'function') sec = v_sec.getInteger();
+    else sec = parseInt(v_sec, 10);
+    if (isNaN(sec)) sec = 1;
+}
+
+// =============================================================================
+// SECCION 2: RESOLUCION Y PARSING DE FECHAS DEL CONTRATO (DISPONIBILIDAD INMEDIATA)
+// =============================================================================
+var v_rep = findRowValue(["Fecha Reportado"], "FechaReportado");
+var v_baja = findRowValue(["Fecha de baja"], "Fechadebaja");
+var v_ult = findRowValue(["Último Día Laboral", "Ultimo Dia Laboral", "ltimo Da Laboral"], "ULTIMODIALABORAL");
+var v_liq = findRowValue(["Fecha liquidacion"], "Fechaliquidacion");
+var v_reliq = findRowValue(["Fecha de Reliquidación", "Fecha de Reliquidacion"], "RELIQUIDACI");
+var v_act = findRowValue(["Activos asignados actualmente"], "Activosasignadosactualmente");
+var v_act_term = findRowValue(["Activos asignados al terminar"], "Activosasignadosalterminar");
+var v_est_liq = findRowValue(["Estado Liquidación", "Estado Liquidacion"], "ESTADOLIQUIDACI");
+var v_flag_desc = safeTrimUpper(findRowValue(["¿Con descuento?", "Con descuento", "ConDescuento"], "CONDESCUENTO"));
+
+var f_rep = parseDateValue(v_rep);
+var f_baja = parseDateValue(v_baja);
+var f_ult = parseDateValue(v_ult);
+var f_liq = parseDateValue(v_liq);
+var f_reliq = parseDateValue(v_reliq);
+
+var FechaReporteKey = formatFechaKey(f_rep);
+var FechaLiquidacionKey = formatFechaKey(f_liq);
+var FechaReliquidacionKey = formatFechaKey(f_reliq);
+
+// =============================================================================
+// SECCION 3: CALCULO NORMALIZADO DE DIAS DE LIQUIDACION (MEDIANOCHE LOCAL)
+// =============================================================================
+var d_rep_mid = toMidnight(f_rep);
+var d_liq_mid = toMidnight(f_liq);
+
+var DiasReporteLiquidacion = null;
+if (d_rep_mid != null &amp;&amp; d_liq_mid != null) {
+    DiasReporteLiquidacion = Math.round((d_liq_mid.getTime() - d_rep_mid.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+var LiquidadoEn10Dias_0_1 = (DiasReporteLiquidacion != null &amp;&amp; DiasReporteLiquidacion >= 0 &amp;&amp; DiasReporteLiquidacion &lt;= 10) ? 1 : 0;
+var CasoConReliquidacion_0_1 = (FechaReliquidacionKey != -1) ? 1 : 0;
+
+// =============================================================================
+// SECCION 4: ASOCIACION TEMPORAL DETERMINISTICA CON HISTORIAL CUBIC (F4)
+// Ventana contractual [f_inicio_retiro, f_limite_siguiente) sin plazos inventados
+// =============================================================================
+var f_inicio_retiro = null;
+if (f_rep != null) f_inicio_retiro = f_rep;
+if (f_ult != null &amp;&amp; (f_inicio_retiro == null || f_ult.getTime() &lt; f_inicio_retiro.getTime())) f_inicio_retiro = f_ult;
+if (f_baja != null &amp;&amp; (f_inicio_retiro == null || f_baja.getTime() &lt; f_inicio_retiro.getTime())) f_inicio_retiro = f_baja;
+
+var f_limite_siguiente = next_contract_start;
+var is_window_inverted_or_collapsed = (f_limite_siguiente != null &amp;&amp; f_inicio_retiro != null 
+                                      &amp;&amp; f_inicio_retiro.getTime() >= f_limite_siguiente.getTime());
+
+if (f_inicio_retiro != null) {
+    if (next_contract_start == null || f_inicio_retiro.getTime() &lt; next_contract_start.getTime()) {
+        next_contract_start = f_inicio_retiro;
+    }
+}
+
+var v_dev_min = findRowValue(["FechaDevolucionCubic_Min"], "FechaDevolucionCubic_Min");
+var v_dev_max = findRowValue(["FechaDevolucionCubic_Max"], "FechaDevolucionCubic_Max");
+var v_dev_list = findRowValue(["FechasDevolucionCubic_List"], "FechasDevolucionCubic_List");
+var v_dev_count = findRowValue(["CantidadDevolucionesCubic"], "CantidadDevolucionesCubic");
+
+var f_dev_min = parseDateValue(v_dev_min);
+var f_dev_max = parseDateValue(v_dev_max);
+var cnt_dev = 0;
+if (v_dev_count != null &amp;&amp; !v_dev_count.isNull()) {
+    if (typeof v_dev_count.getInteger === 'function') cnt_dev = v_dev_count.getInteger();
+    else cnt_dev = parseInt(v_dev_count, 10);
+    if (isNaN(cnt_dev)) cnt_dev = 0;
+}
+
+var cubic_dates = [];
+var str_dev_list = safeTrim(v_dev_list);
+if (str_dev_list != "") {
+    var raw_tokens = str_dev_list.split(/[,;\t\n]+/);
+    for (var ti = 0; ti &lt; raw_tokens.length; ti++) {
+        var pd = parseDateValue(raw_tokens[ti]);
+        if (pd != null) cubic_dates.push(pd);
+    }
+}
+if (cubic_dates.length == 0) {
+    if (f_dev_min != null) cubic_dates.push(f_dev_min);
+    if (f_dev_max != null &amp;&amp; (f_dev_min == null || f_dev_max.getTime() != f_dev_min.getTime())) {
+        cubic_dates.push(f_dev_max);
+    }
+}
+
+var act_term_raw = safeTrimUpper(v_act_term);
+var act_raw = safeTrimUpper(v_act);
+
+var term_explicit_no_assets = (act_term_raw == "-" || act_term_raw == "0" 
+                              || act_term_raw.indexOf("NO TIENE") >= 0 
+                              || act_term_raw.indexOf("SIN ACTIVOS") >= 0);
+
+var current_explicit_has_assets = (act_raw != "" &amp;&amp; act_raw != "-" &amp;&amp; act_raw != "0" 
+                                  &amp;&amp; act_raw != "NULL" &amp;&amp; act_raw != "NONE" 
+                                  &amp;&amp; act_raw.indexOf("NO TIENE") &lt; 0 
+                                  &amp;&amp; act_raw.indexOf("SIN ACTIVOS") &lt; 0);
+
+var is_sin_activos_certified = term_explicit_no_assets &amp;&amp; !current_explicit_has_assets &amp;&amp; cnt_dev == 0;
+var is_sin_activos_explicit = (act_raw == "0" || act_raw == "-" || act_raw.indexOf("NO TIENE") >= 0 || act_raw.indexOf("SIN ACTIVOS") >= 0);
+
+var f_dev = null;
+var DiasReporteDevolucion = null;
+
+if (!is_sin_activos_certified &amp;&amp; f_inicio_retiro != null &amp;&amp; !is_window_inverted_or_collapsed) {
+    var matched_devs = [];
+    for (var ci = 0; ci &lt; cubic_dates.length; ci++) {
+        var cd = cubic_dates[ci];
+        var cd_time = cd.getTime();
+        if (cd_time >= f_inicio_retiro.getTime() &amp;&amp; (f_limite_siguiente == null || cd_time &lt; f_limite_siguiente.getTime())) {
+            if (!used_cubic_timestamps[cd_time]) {
+                matched_devs.push(cd);
+            }
+        }
+    }
+    
+    if (matched_devs.length > 0) {
+        var max_dev = matched_devs[0];
+        for (var mi = 1; mi &lt; matched_devs.length; mi++) {
+            if (matched_devs[mi].getTime() > max_dev.getTime()) {
+                max_dev = matched_devs[mi];
+            }
+        }
+        f_dev = max_dev;
+        used_cubic_timestamps[f_dev.getTime()] = true;
+        
+        if (f_rep != null) {
+            var d_dev_mid = toMidnight(f_dev);
+            DiasReporteDevolucion = (d_rep_mid != null &amp;&amp; d_dev_mid != null) ? Math.round((d_dev_mid.getTime() - d_rep_mid.getTime()) / (1000 * 60 * 60 * 24)) : null;
+        } else {
+            DiasReporteDevolucion = null;
+        }
+    }
+}
+
+var FechaDevolucionKey = formatFechaKey(f_dev);
+
+// Evaluacion de estado de devolucion y activos pendientes
+var is_multi_contract = (sec > 1 || f_limite_siguiente != null);
+var EstadoDevolucion = "SIN ACTIVOS";
+var CantidadActivosPendientes = 0;
+
+if (is_sin_activos_certified) {
+    EstadoDevolucion = "SIN ACTIVOS";
+    CantidadActivosPendientes = 0;
+    f_dev = null;
+    FechaDevolucionKey = -1;
+    DiasReporteDevolucion = null;
+} else if (is_window_inverted_or_collapsed || f_inicio_retiro == null) {
+    EstadoDevolucion = "PENDIENTE";
+    CantidadActivosPendientes = parsePendingAssetsCount(v_act);
+    f_dev = null;
+    FechaDevolucionKey = -1;
+    DiasReporteDevolucion = null;
+} else if (is_sin_activos_explicit &amp;&amp; f_dev != null) {
+    if (is_multi_contract || cnt_dev > 1) {
+        EstadoDevolucion = "PENDIENTE";
+        CantidadActivosPendientes = 0;
+    } else {
+        EstadoDevolucion = "COMPLETA";
+        CantidadActivosPendientes = 0;
+    }
+} else {
+    EstadoDevolucion = "PENDIENTE";
+    CantidadActivosPendientes = parsePendingAssetsCount(v_act);
+    if (f_dev == null) {
+        FechaDevolucionKey = -1;
+        DiasReporteDevolucion = null;
+    }
+}
+
+var est_liq_raw = safeTrimUpper(v_est_liq);
+var EstadoLiquidacionNorm = "Liquidado";
+if (est_liq_raw.indexOf("RELIQUIDADO") >= 0) {
+    EstadoLiquidacionNorm = "Reliquidado";
+} else if (est_liq_raw.indexOf("PENDIENTE") >= 0 || f_liq == null) {
+    EstadoLiquidacionNorm = "Pendiente Liquidar";
+} else {
+    EstadoLiquidacionNorm = "Liquidado";
+}
+
+// =============================================================================
+// SECCION 5: DEFINICION DE VARIABLES Y JERARQUIA DE ASIGNACION DE DESCUENTOS (F2)
+// Variables definidas formal y deterministicamente en tiempo de ejecucion:
+// 1. total_desc: Monto total de descuentos registrado para el colaborador en F2
+// 2. is_multi_colab: Verdadero si el colaborador tiene multiples contratos de retiro
+// 3. f_desc_liq_match: Coincidencia exacta con Fecha de Liquidacion del contrato
+// 4. f_desc_reliq_match: Coincidencia exacta con Fecha de Reliquidacion del contrato
+// =============================================================================
+
+// 1. Obtencion de campos de novedad de descuentos F2
+var v_desc = findRowValue(["TotalDescuentoContratoCOP", "TotalDescuentoPersonaCOP"], "TotalDescuento");
+var total_desc = 0.0;
+if (v_desc != null &amp;&amp; (typeof v_desc.isNull !== 'function' || !v_desc.isNull())) {
+    if (typeof v_desc.getNumber === 'function') total_desc = v_desc.getNumber();
+    else total_desc = parseFloat(v_desc);
+    if (isNaN(total_desc)) total_desc = 0.0;
+}
+
+// 2. Evaluacion de multiplicidad contractual del colaborador
+var v_total_c = findRowValue(["TotalContratosF1", "TotalContratosPersona"], "TotalContratos");
+var is_multi_colab = false;
+if (v_total_c != null &amp;&amp; !v_total_c.isNull()) {
+    var tc_num = (typeof v_total_c.getInteger === 'function') ? v_total_c.getInteger() : parseInt(v_total_c, 10);
+    if (!isNaN(tc_num) &amp;&amp; tc_num > 1) is_multi_colab = true;
+}
+if (!is_multi_colab) {
+    // Si no viene campo agregado, se determina por secuencia y ventana temporal del colaborador
+    is_multi_colab = (sec > 1 || f_limite_siguiente != null);
+}
+
+// 3. Evaluacion de coincidencia con Fecha de Liquidacion (Nivel 2)
+var v_desc_list = findRowValue(["FechasDescuento_List", "FechasDescuento"], "FechasDescuento");
+var str_desc_list = safeTrim(v_desc_list);
+var f_desc_liq_match = false;
+
+if (f_liq != null &amp;&amp; str_desc_list != "") {
+    var cur_liq_key = FechaLiquidacionKey;
+    var tokens_desc = str_desc_list.split(/[,;\t\n]+/);
+    for (var di = 0; di &lt; tokens_desc.length; di++) {
+        var d_p = parseDateValue(tokens_desc[di]);
+        if (d_p != null &amp;&amp; formatFechaKey(d_p) == cur_liq_key) {
+            f_desc_liq_match = true;
+            break;
+        }
+    }
+}
+
+// 4. Evaluacion de coincidencia con Fecha de Reliquidacion (Nivel 3)
+var v_reliq_list = findRowValue(["FechasReliq_List", "FechasReliq"], "FechasReliq");
+var str_reliq_list = safeTrim(v_reliq_list);
+var f_desc_reliq_match = false;
+
+if (f_reliq != null &amp;&amp; str_reliq_list != "") {
+    var cur_reliq_key = FechaReliquidacionKey;
+    var tokens_reliq = str_reliq_list.split(/[,;\t\n]+/);
+    for (var ri = 0; ri &lt; tokens_reliq.length; ri++) {
+        var r_p = parseDateValue(tokens_reliq[ri]);
+        if (r_p != null &amp;&amp; formatFechaKey(r_p) == cur_reliq_key) {
+            f_desc_reliq_match = true;
+            break;
+        }
+    }
+}
+
+// =============================================================================
+// EVALUACION DE LA JERARQUIA DETERMINISTICA (DDL 05_fac_retiro.sql)
+// =============================================================================
+var ValorDescontadoCOP = 0.00;
+var TipoVinculacionDescuento = "SIN_DESCUENTO";
+var MotivoAjusteDescuento = "Sin novedad de descuento registrada en F2 o asignada a otro contrato";
+var CasoConDescuento_0_1 = 0;
+
+if (total_desc > 0 &amp;&amp; !used_discount_assigned) {
+    if (!is_multi_colab &amp;&amp; sec == 1) {
+        // Nivel 1: VINCULACION_DIRECTA_1_A_1 (Colaborador mono-contrato univoco)
+        ValorDescontadoCOP = total_desc;
+        CasoConDescuento_0_1 = 1;
+        TipoVinculacionDescuento = "VINCULACION_DIRECTA_1_A_1";
+        MotivoAjusteDescuento = "Vinculo 1:1 directo mono-contrato sin ambiguedad";
+        used_discount_assigned = true;
+    } else if (f_desc_liq_match) {
+        // Nivel 2: VINCULACION_MULTI_LIQ (Coincidencia con Fecha Liquidacion)
+        ValorDescontadoCOP = total_desc;
+        CasoConDescuento_0_1 = 1;
+        TipoVinculacionDescuento = "VINCULACION_MULTI_LIQ";
+        MotivoAjusteDescuento = "Vinculo univoco por coincidencia exacta de fecha de liquidacion";
+        used_discount_assigned = true;
+    } else if (f_desc_reliq_match) {
+        // Nivel 3: VINCULACION_MULTI_RELIQ (Coincidencia con Fecha Reliquidacion)
+        ValorDescontadoCOP = total_desc;
+        CasoConDescuento_0_1 = 1;
+        TipoVinculacionDescuento = "VINCULACION_MULTI_RELIQ";
+        MotivoAjusteDescuento = "Vinculo univoco por coincidencia exacta de fecha de reliquidacion";
+        used_discount_assigned = true;
+    } else if (v_flag_desc == "SI" || v_flag_desc == "SÍ") {
+        // Nivel 4: VINCULACION_MULTI_FLAG (Indicador unico 'Con descuento = Si')
+        ValorDescontadoCOP = total_desc;
+        CasoConDescuento_0_1 = 1;
+        TipoVinculacionDescuento = "VINCULACION_MULTI_FLAG";
+        MotivoAjusteDescuento = "Vinculo univoco por indicador unico de descuento en F1";
+        used_discount_assigned = true;
+    } else if (sec == 1 &amp;&amp; !is_multi_colab) {
+        // Fallback controlado para colaborador mono-contrato
+        ValorDescontadoCOP = total_desc;
+        CasoConDescuento_0_1 = 1;
+        TipoVinculacionDescuento = "VINCULACION_DIRECTA_1_A_1";
+        MotivoAjusteDescuento = "Vinculo 1:1 directo mono-contrato asignado a contrato principal";
+        used_discount_assigned = true;
+    } else {
+        // Multi-contrato sin coincidencia contractual unica (aislado en fac_descuento_conciliacion)
+        ValorDescontadoCOP = 0.00;
+        CasoConDescuento_0_1 = 0;
+        TipoVinculacionDescuento = "SIN_DESCUENTO";
+        MotivoAjusteDescuento = "Colaborador multi-contrato sin coincidencia contractual unica (aislado en fac_descuento_conciliacion)";
+    }
+} else {
+    ValorDescontadoCOP = 0.00;
+    CasoConDescuento_0_1 = 0;
+    TipoVinculacionDescuento = "SIN_DESCUENTO";
+    MotivoAjusteDescuento = (total_desc > 0) ? "Novedad de descuento ya atribuida a contrato precedente del colaborador" : "Sin descuento registrado en F2 para este contrato especifico";
+}
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>ValorDescontadoCOP</name>
+        <rename>ValorDescontadoCOP</rename>
+        <type>BigNumber</type>
+        <length>15</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>TipoVinculacionDescuento</name>
+        <rename>TipoVinculacionDescuento</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>MotivoAjusteDescuento</name>
+        <rename>MotivoAjusteDescuento</rename>
+        <type>String</type>
+        <length>150</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CasoConDescuento_0_1</name>
+        <rename>CasoConDescuento_0_1</rename>
+        <type>Integer</type>
+        <length>1</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>FechaReporteKey</name>
+        <rename>FechaReporteKey</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>FechaLiquidacionKey</name>
+        <rename>FechaLiquidacionKey</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>FechaDevolucionKey</name>
+        <rename>FechaDevolucionKey</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>FechaReliquidacionKey</name>
+        <rename>FechaReliquidacionKey</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>DiasReporteLiquidacion</name>
+        <rename>DiasReporteLiquidacion</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>DiasReporteDevolucion</name>
+        <rename>DiasReporteDevolucion</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>LiquidadoEn10Dias_0_1</name>
+        <rename>LiquidadoEn10Dias_0_1</rename>
+        <type>Integer</type>
+        <length>1</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CasoConReliquidacion_0_1</name>
+        <rename>CasoConReliquidacion_0_1</rename>
+        <type>Integer</type>
+        <length>1</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CantidadActivosPendientes</name>
+        <rename>CantidadActivosPendientes</rename>
+        <type>Integer</type>
+        <length>9</length>
+        <precision>0</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>EstadoDevolucion</name>
+        <rename>EstadoDevolucion</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>EstadoLiquidacionNorm</name>
+        <rename>EstadoLiquidacionNorm</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Carga_fac_retiro</name>
+    <type>TableOutput</type>
+    <description>E5: Inserción final en la tabla de hechos fac_retiro con métricas completas y trazabilidad de vinculación</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MySQL_bi_entrega2_test</connection>
+    <schema/>
+    <table>fac_retiro</table>
+    <commit>1000</commit>
+    <truncate>Y</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>N</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>N</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>ContratoKey</column_name>
+        <stream_name>ContratoKey</stream_name>
+      </field>
+      <field>
+        <column_name>UbicacionKey</column_name>
+        <stream_name>UbicacionKey</stream_name>
+      </field>
+      <field>
+        <column_name>EstadoKey</column_name>
+        <stream_name>EstadoKey</stream_name>
+      </field>
+      <field>
+        <column_name>FechaReporteKey</column_name>
+        <stream_name>FechaReporteKey</stream_name>
+      </field>
+      <field>
+        <column_name>FechaLiquidacionKey</column_name>
+        <stream_name>FechaLiquidacionKey</stream_name>
+      </field>
+      <field>
+        <column_name>FechaDevolucionKey</column_name>
+        <stream_name>FechaDevolucionKey</stream_name>
+      </field>
+      <field>
+        <column_name>FechaReliquidacionKey</column_name>
+        <stream_name>FechaReliquidacionKey</stream_name>
+      </field>
+      <field>
+        <column_name>DiasReporteLiquidacion</column_name>
+        <stream_name>DiasReporteLiquidacion</stream_name>
+      </field>
+      <field>
+        <column_name>DiasReporteDevolucion</column_name>
+        <stream_name>DiasReporteDevolucion</stream_name>
+      </field>
+      <field>
+        <column_name>ValorDescontadoCOP</column_name>
+        <stream_name>ValorDescontadoCOP</stream_name>
+      </field>
+      <field>
+        <column_name>CantidadActivosPendientes</column_name>
+        <stream_name>CantidadActivosPendientes</stream_name>
+      </field>
+      <field>
+        <column_name>LiquidadoEn10Dias_0_1</column_name>
+        <stream_name>LiquidadoEn10Dias_0_1</stream_name>
+      </field>
+      <field>
+        <column_name>CasoConDescuento_0_1</column_name>
+        <stream_name>CasoConDescuento_0_1</stream_name>
+      </field>
+      <field>
+        <column_name>CasoConReliquidacion_0_1</column_name>
+        <stream_name>CasoConReliquidacion_0_1</stream_name>
+      </field>
+      <field>
+        <column_name>TipoVinculacionDescuento</column_name>
+        <stream_name>TipoVinculacionDescuento</stream_name>
+      </field>
+      <field>
+        <column_name>MotivoAjusteDescuento</column_name>
+        <stream_name>MotivoAjusteDescuento</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Elimina_Duplicados_Contrato</name>
+    <type>Unique</type>
+    <description>E3/E4: Elimina 6 registros duplicados por ID de contrato</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <count_rows>N</count_rows>
+    <count_field/>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>Id</name>
+        <case_insensitive>Y</case_insensitive>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_F2_Valido</name>
+    <type>FilterRows</type>
+    <description>E3/E4: Descarta 861 registros con error #N/A en Código Único de F2</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>Codigo unico</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Codigo unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Codigo unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>#N/A</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>224</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_F4_Valido</name>
+    <type>FilterRows</type>
+    <description>E3/E4: Descarta 651 registros inválidos en Cubic ('-', '0', nulos)</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>Codigo Unico</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Codigo Unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Codigo Unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>-</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Codigo Unico</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>0</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>224</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filtra_Id_Valido</name>
+    <type>FilterRows</type>
+    <description>E3/E4: Descarta 1 registro con ID nulo o inválido (#N/A)</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to/>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <conditions>
+          <condition>
+            <negated>N</negated>
+            <leftvalue>Id</leftvalue>
+            <function>IS NOT NULL</function>
+            <rightvalue/>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Id</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text/>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>Y</isnull>
+              <mask/>
+            </value>
+          </condition>
+          <condition>
+            <negated>Y</negated>
+            <operator>AND</operator>
+            <leftvalue>Id</leftvalue>
+            <function>=</function>
+            <rightvalue/>
+            <value>
+              <name>constant</name>
+              <type>String</type>
+              <text>#N/A</text>
+              <length>-1</length>
+              <precision>-1</precision>
+              <isnull>N</isnull>
+              <mask/>
+            </value>
+          </condition>
+        </conditions>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>192</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lee_Activos_Descuentos_F2</name>
+    <type>ExcelInput</type>
+    <description>E2: Lectura de archivo original F2 Activos y Descuentos.xlsx</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${RUTA_DESCUENTOS}</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required/>
+      <include_subfolders/>
+    </file>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha</name>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>ID ACTIVO</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>NOMBRE ACTIVO</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>VALOR EN DOLAR</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>VALOR EN PESOS</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>FECHA DE RELIQUIDACION</name>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>DESCONTADOS</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension/>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension/>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lee_Historial_Cubic_F4</name>
+    <type>ExcelInput</type>
+    <description>E2: Lectura de archivo original F4 Historial Cubic.xlsx</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${RUTA_CUBIC}</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required/>
+      <include_subfolders/>
+    </file>
+    <fields>
+      <field>
+        <name>Codigo Unico</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Id</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha Registro</name>
+        <type>Date</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format>yyyy-MM-dd</format>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>DEVO CUBIC</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension/>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension/>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lee_Paz_y_Salvos_F1</name>
+    <type>ExcelInput</type>
+    <description>E2: Lectura de archivo original F1 Paz y Salvos.xlsx</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <header>Y</header>
+    <noempty>Y</noempty>
+    <stoponempty>N</stoponempty>
+    <filefield/>
+    <sheetfield/>
+    <sheetrownumfield/>
+    <rownumfield/>
+    <sheetfield/>
+    <filefield/>
+    <limit>0</limit>
+    <encoding/>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <accept_filenames>N</accept_filenames>
+    <accept_field/>
+    <accept_stepname/>
+    <file>
+      <name>${RUTA_PAZ_Y_SALVOS}</name>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required/>
+      <include_subfolders/>
+    </file>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Id</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha de baja</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Ultimo Dia Laboral</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha Reportado</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Motivo</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Cargo</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Campaña</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Departamento</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Municipio</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha Final</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Edad</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>RangoEdad</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Activos asignados al terminar</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Consumibles</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Ceco</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Activos asignados actualmente</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Transportadora</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha Programación</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Estado Liquidación</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Estado programación</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>¿Con descuento?</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha liquidacion</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>Fecha de Reliquidación</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+    </fields>
+    <sheets>
+      <sheet>
+        <name>P&amp;S</name>
+        <startrow>0</startrow>
+        <startcol>0</startcol>
+      </sheet>
+    </sheets>
+    <strict_types>N</strict_types>
+    <error_ignored>N</error_ignored>
+    <error_line_skipped>N</error_line_skipped>
+    <bad_line_files_destination_directory/>
+    <bad_line_files_extension/>
+    <error_line_files_destination_directory/>
+    <error_line_files_extension/>
+    <line_number_files_destination_directory/>
+    <line_number_files_extension/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+    <spreadsheet_type>POI</spreadsheet_type>
+    <password>Encrypted </password>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Limpia_F2_ValorCOP</name>
+    <type>ScriptValueMod</type>
+    <description>E3: Limpieza de formato moneda COP en campo VALOR EN PESOS</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>Y</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// =============================================================================
+// Limpia_F2_ValorCOP
+// E3: Limpieza de formato moneda COP en campo VALOR EN PESOS y normalizacion de claves
+// Consumo estricto y nativo de campos entregados por Lee_Activos_Descuentos_F2 (ExcelInput)
+// SIN dependencias de Apache POI (WorkbookFactory, org.apache.poi.*) ni lectura externa de archivos
+// Compatible con Rhino / ES5 (Pentaho PDI 9.4)
+// =============================================================================
+
+var raw_val_str = "";
+var raw_cod_str = "";
+
+// 1. Acceso seguro no posicional por compatibilidad Pentaho PDI 9.4 (Row) y fallback por propiedades
+if (typeof row !== 'undefined' &amp;&amp; row != null &amp;&amp; typeof row.searchValueIndex === 'function') {
+    var idx_val = row.searchValueIndex("VALOR EN PESOS");
+    if (idx_val >= 0) {
+        var v_val = row.getValue(idx_val);
+        if (v_val != null &amp;&amp; !v_val.isNull()) {
+            if (typeof v_val.getString === 'function') {
+                raw_val_str = trim(v_val.getString());
+            } else {
+                raw_val_str = trim(String(v_val));
+            }
+        }
+    }
+    var idx_cod = row.searchValueIndex("Codigo unico");
+    if (idx_cod >= 0) {
+        var v_cod = row.getValue(idx_cod);
+        if (v_cod != null &amp;&amp; !v_cod.isNull()) {
+            if (typeof v_cod.getString === 'function') {
+                raw_cod_str = trim(v_cod.getString());
+            } else {
+                raw_cod_str = trim(String(v_cod));
+            }
+        }
+    }
+} else {
+    if (typeof this["VALOR EN PESOS"] !== 'undefined' &amp;&amp; this["VALOR EN PESOS"] !== null) {
+        raw_val_str = trim(String(this["VALOR EN PESOS"]));
+    }
+    if (typeof this["Codigo unico"] !== 'undefined' &amp;&amp; this["Codigo unico"] !== null) {
+        raw_cod_str = trim(String(this["Codigo unico"]));
+    }
+}
+
+// 2. Normalizacion de Codigo unico (eliminar sufijo .0 si ExcelInput/POI lo entrego como numerico)
+var CodigoF2_Norm = raw_cod_str;
+if (CodigoF2_Norm != null &amp;&amp; CodigoF2_Norm != "") {
+    if (CodigoF2_Norm.indexOf(".") >= 0) {
+        var parts_cod = CodigoF2_Norm.split(".");
+        if (parts_cod.length == 2 &amp;&amp; parts_cod[1] == "0") {
+            CodigoF2_Norm = parts_cod[0];
+        }
+    }
+}
+
+// 3. Limpieza estricta de formato de moneda COP (preservando decimales y flotantes nativos)
+var val_raw = raw_val_str;
+var ValorCOP_Num = 0.0;
+
+if (val_raw != null &amp;&amp; val_raw != "") {
+    // Si contiene error de formula Excel (#REF!, #N/A, etc.), el valor es 0.0
+    if (val_raw.indexOf("#") >= 0) {
+        ValorCOP_Num = 0.0;
+    } else if (val_raw.indexOf(",") >= 0 &amp;&amp; val_raw.indexOf(".") &lt; 0 &amp;&amp; val_raw.indexOf("$") &lt; 0) {
+        // Formato con coma decimal hispana (ej: "150000,50")
+        var s_dec = val_raw.replace(/ /g, "").replace(",", ".");
+        var n_dec = parseFloat(s_dec);
+        if (!isNaN(n_dec)) ValorCOP_Num = n_dec;
+    } else if (val_raw.indexOf("$") >= 0 || (val_raw.split(".").length > 2)) {
+        // Formato con signo $ o puntos de miles (ej: "$ 150.000" o "$150.000.00")
+        var s_mil = val_raw.replace("$", "").replace(/\./g, "").replace(/ /g, "");
+        var n_mil = parseFloat(s_mil);
+        if (!isNaN(n_mil)) ValorCOP_Num = n_mil;
+    } else {
+        // Formato numerico nativo / float con punto decimal (ej: "150000.5")
+        var s_num = val_raw.replace(/ /g, "");
+        var n_num = parseFloat(s_num);
+        if (!isNaN(n_num)) ValorCOP_Num = n_num;
+    }
+}
+
+// 4. Clave de destino para agrupacion y cruce deterministico por colaborador
+var IdContratoDestino = CodigoF2_Norm;
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>ValorCOP_Num</name>
+        <rename>ValorCOP_Num</rename>
+        <type>BigNumber</type>
+        <length>15</length>
+        <precision>2</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>CodigoF2_Norm</name>
+        <rename>CodigoF2_Norm</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>IdContratoDestino</name>
+        <rename>IdContratoDestino</rename>
+        <type>String</type>
+        <length>50</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>384</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup_F2_Descuentos</name>
+    <type>StreamLookup</type>
+    <description>Cruce con F2 por Código Único para obtener el descuento total de la persona</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Ordena_F2_Id_Agrupado</from>
+    <input_sorted>Y</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>Y</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>Codigo unico</name>
+        <field>IdContratoDestino</field>
+      </key>
+      <value>
+        <name>TotalDescuentoContratoCOP</name>
+        <rename>TotalDescuentoContratoCOP</rename>
+        <default>0.00</default>
+        <type>BigNumber</type>
+      </value>
+      <value>
+        <name>CantidadActivosDescontados</name>
+        <rename>CantidadActivosDescontados</rename>
+        <default>0</default>
+        <type>Integer</type>
+      </value>
+      <value>
+        <name>FechasDescuento_List</name>
+        <rename>FechasDescuento_List</rename>
+        <default/>
+        <type>String</type>
+      </value>
+      <value>
+        <name>FechasReliq_List</name>
+        <rename>FechasReliq_List</rename>
+        <default/>
+        <type>String</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup_F4_Devolucion</name>
+    <type>StreamLookup</type>
+    <description>Cruce con F4 por Codigo unico para obtener eventos de devolucion en bodega</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <from>Agrupa_Cubic_F4</from>
+    <input_sorted>N</input_sorted>
+    <preserve_memory>Y</preserve_memory>
+    <sorted_list>N</sorted_list>
+    <integer_pair>N</integer_pair>
+    <lookup>
+      <key>
+        <name>Codigo unico</name>
+        <field>Codigo Unico</field>
+      </key>
+      <value>
+        <name>FechaDevolucionCubic_Min</name>
+        <rename>FechaDevolucionCubic_Min</rename>
+        <default/>
+        <type>Date</type>
+      </value>
+      <value>
+        <name>FechaDevolucionCubic_Max</name>
+        <rename>FechaDevolucionCubic_Max</rename>
+        <default/>
+        <type>Date</type>
+      </value>
+      <value>
+        <name>FechasDevolucionCubic_List</name>
+        <rename>FechasDevolucionCubic_List</rename>
+        <default/>
+        <type>String</type>
+      </value>
+      <value>
+        <name>CantidadDevolucionesCubic</name>
+        <rename>CantidadDevolucionesCubic</rename>
+        <default>0</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1008</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup_dim_contrato</name>
+    <type>DBLookup</type>
+    <description>E5: Búsqueda de llave ContratoKey</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MySQL_bi_entrega2</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>100000</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_contrato</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>Id</name>
+        <field>IDContrato</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ContratoKey</name>
+        <rename>ContratoKey</rename>
+        <default>-1</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup_dim_estado</name>
+    <type>DBLookup</type>
+    <description>E5: Búsqueda de llave EstadoKey por combinación de estados</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MySQL_bi_entrega2</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>100</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_estado</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>EstadoDevolucion</name>
+        <field>EstadoDevolucion</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>EstadoLiquidacionNorm</name>
+        <field>EstadoLiquidacion</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>EstadoKey</name>
+        <rename>EstadoKey</rename>
+        <default>1</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Lookup_dim_ubicacion</name>
+    <type>DBLookup</type>
+    <description>E5: Búsqueda de llave UbicacionKey en maestro normalizado DIVIPOLA</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>MySQL_bi_entrega2</connection>
+    <cache>Y</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>2000</cache_size>
+    <lookup>
+      <schema/>
+      <table>dim_ubicacion</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>Municipio</name>
+        <field>NombreMunicipio</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>UbicacionKey</name>
+        <rename>UbicacionKey</rename>
+        <default>1</default>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F1_Id</name>
+    <type>SortRows</type>
+    <description>Ordena por Id de contrato para deduplicación</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Id</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F1_Id_Lookup</name>
+    <type>SortRows</type>
+    <description>Ordena corriente F1 por Id ascendente para cruce deterministico con F2</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>780</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F1_Persona</name>
+    <type>SortRows</type>
+    <description>Ordena por Codigo unico ASC y fechas de retiro DESC para delimitar intervalos consecutivos</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Codigo unico</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>Fecha Reportado</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>Id</name>
+        <ascending>N</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>576</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F2_Id_Agrupado</name>
+    <type>SortRows</type>
+    <description>Ordena resumen de descuentos F2 por IdContratoDestino ascendente para StreamLookup</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>IdContratoDestino</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>820</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F2_Persona</name>
+    <type>SortRows</type>
+    <description>Ordena por Código Único para agrupación de descuentos</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>IdContratoDestino</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>544</xloc>
+      <yloc>192</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Ordena_F4_Persona</name>
+    <type>SortRows</type>
+    <description>Ordena por Código Único y Fecha de Registro</description>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>100000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>Codigo Unico</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>Fecha Registro</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>384</xloc>
+      <yloc>320</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step_error_handling>
+  </step_error_handling>
+  <slave-step-copy-partition-distribution>
+  </slave-step-copy-partition-distribution>
+  <slave_transformation>N</slave_transformation>
+  <attributes/>
+</transformation>
